@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Sharing App</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+  <h1>Video Sharing App</h1>
+
+  <input type="file" id="videoFileInput" accept="video/*">
+  <button onclick="uploadVideo()">Upload Video</button>
+
+  <hr>
+
+  <div id="qrCodeContainer"></div>
+
+  <script>
+    // Generate QR code
+    function generateQRCode(videoUrl) {
+      const qrCodeContainer = document.getElementById("qrCodeContainer");
+      qrCodeContainer.innerHTML = "";
+
+      const qrcode = new QRCode(qrCodeContainer, {
+        text: videoUrl,
+        width: 128,
+        height: 128
+      });
+    }
+
+    // Handle video upload
+    function uploadVideo() {
+      const videoFileInput = document.getElementById("videoFileInput");
+      const file = videoFileInput.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const videoUrl = event.target.result;
+          generateQRCode(videoUrl);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please select a video file.");
+      }
+    }
+  </script>
+</body>
+</html>
